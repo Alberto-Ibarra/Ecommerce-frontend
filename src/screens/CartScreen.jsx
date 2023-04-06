@@ -2,13 +2,14 @@ import React, {useEffect} from 'react';
 import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Row, Col, ListGroup, Image, Form, Button, Card  } from 'react-bootstrap';
 import { useDispatch, useSelector} from 'react-redux';
-import { addToCart } from '../actions/cartActions';
+import { addToCart, removeFromCart } from '../actions/cartActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
 const CartScreen = () => {
     const {productId} = useParams()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const cart = useSelector(state => state.cart)
     const {cartItems} = cart
     console.log(cartItems);
@@ -21,7 +22,11 @@ const CartScreen = () => {
     },[dispatch, productId, qty])
 
     const removeFromCartHandler = (id) => {
-        console.log('test');
+        dispatch(removeFromCart(id))
+    }
+
+    const checkOutHandler = () => {
+        navigate('/login?redirect=shipping')
     }
 
     return (
@@ -67,6 +72,12 @@ const CartScreen = () => {
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h2>Subtotal ({cartItems.reduce((acc, item) => Number(acc) + Number(item.qty), 0)}) items</h2>
+                            ${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <Button type='button' className='w-100' disabled={cartItems.length === 0} onClick={checkOutHandler}>
+                                Proceed to Checkout
+                            </Button>
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>
