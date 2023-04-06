@@ -6,6 +6,7 @@ export const fetchProducts = () => async (dispatch) => {
     try{
         dispatch(request())
         const {data} = await axios.get('http://localhost:5000/api/products')
+        console.log(data);
         dispatch(success(data))
     }catch(err){
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message
@@ -18,6 +19,7 @@ export const fetchProductDetails = (id) => async (dispatch) => {
     try{
         dispatch(requestDetails())
         const {data} = await axios.get(`http://localhost:5000/api/products/${id}`)
+        console.log(data);
         dispatch(successDetails(data))
     }catch(err){
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message

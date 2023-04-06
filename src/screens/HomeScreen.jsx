@@ -17,15 +17,16 @@ const HomeScreen = () => {
         dispatch(fetchProducts()) 
     },[dispatch])
 
+    // const products = []
 
     return (
         <>
-            <h1>Latest Products</h1>
+            {/* <h1>Latest Products</h1>
             {loading 
             ? <Loader/>
             : error 
             ? <Message>{error} </Message>
-            : (
+            : ( */}
                 <Row>
                 {products.map(product =>{
                     return(
@@ -35,7 +36,7 @@ const HomeScreen = () => {
                     )
                 })}
             </Row>
-            )}
+            {/* )} */}
         </>
     )
 }
