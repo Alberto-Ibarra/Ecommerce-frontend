@@ -2,14 +2,16 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk';
 import productsSlice from './slicers/productSlice';
 import productDetailsSlice from './slicers/productDetailsSlice';
-import  cartReducer  from './slicers/cartSlice';
+import  cartSlice  from './slicers/cartSlice';
+import userLoginSlice from './slicers/userSlice';
 
 
 
 const reducer = combineReducers({
     productsList: productsSlice,
     productDetials: productDetailsSlice,
-    cart: cartReducer
+    cart: cartSlice,
+    userLogin: userLoginSlice
 });
 
 const middleware = [thunk]
@@ -25,10 +27,18 @@ const middleware = [thunk]
         console.error('Error parsing cart items from local storage', error);
     }
 
+
+        const storedUserInfo = localStorage.getItem('userInfo');
+        if (storedUserInfo) {
+            JSON.parse(localStorage.getItem('userInfo'));
+        }else{
+            null
+        }
+
+
 const initialState = {
-    cart: {
-        cartItems: cartItemsFromStorage,
-        },
+    cart: {cartItems: cartItemsFromStorage},
+    userLogin: {userInfo: storedUserInfo},
     };
 
 
