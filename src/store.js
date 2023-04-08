@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import thunk from 'redux-thunk';
 import productsSlice from './slicers/productSlice';
 import productDetailsSlice from './slicers/productDetailsSlice';
-import  cartSlice  from './slicers/cartSlice';
+import cartSlice  from './slicers/cartSlice';
 import userLoginSlice from './slicers/userSlice';
 
 
