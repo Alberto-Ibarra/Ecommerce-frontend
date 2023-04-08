@@ -27,18 +27,18 @@ const middleware = [thunk]
         console.error('Error parsing cart items from local storage', error);
     }
 
-
-        const storedUserInfo = localStorage.getItem('userInfo');
-        if (storedUserInfo) {
-            JSON.parse(localStorage.getItem('userInfo'));
-        }else{
-            null
-        }
+    let parsedUserInfo = null
+    const storedUserInfo = localStorage.getItem('userInfo');
+    if (storedUserInfo) {
+        parsedUserInfo = JSON.parse(storedUserInfo);
+    }else{
+        null
+    }
 
 
 const initialState = {
     cart: {cartItems: cartItemsFromStorage},
-    userLogin: {userInfo: storedUserInfo},
+    userLogin: {userInfo: parsedUserInfo},
     };
 
 

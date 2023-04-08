@@ -1,4 +1,4 @@
-import { request, success, fail } from "../slicers/userSlice";
+import { request, success, fail, logout } from "../slicers/userSlice";
 import axios from "axios";
 
 export const login = (email, password) => async (dispatch) => {
@@ -16,4 +16,10 @@ export const login = (email, password) => async (dispatch) => {
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message
         dispatch(fail(error))
     }
+}
+
+
+export const logoutUser = () => (dispatch) => {
+    localStorage.removeItem('userInfo')
+    dispatch(logout())
 }
