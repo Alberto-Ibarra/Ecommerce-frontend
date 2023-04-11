@@ -23,7 +23,7 @@ const OrderScreen = () => {
 
     return loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : 
     <>
-        <h1>Order {order._id}</h1>
+        <h2>Order # {order._id}</h2>
         <Row>
                 <Col ms={8}>
                     <ListGroup variant='flush'>

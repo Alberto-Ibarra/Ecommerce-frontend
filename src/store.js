@@ -9,6 +9,7 @@ import userDetailsSlice from './slicers/userDetailsSlice';
 import userUpdateProfileSlice from './slicers/userUpdateProfile';
 import orderSlice from './slicers/orderSlice';
 import orderDetailsSlice from './slicers/orderDetailsSlice';
+import orderPaySlice from './slicers/orderPaySlice';
 
 
 
@@ -21,7 +22,8 @@ const reducer = combineReducers({
     userDetails: userDetailsSlice,
     UpdateProfile: userUpdateProfileSlice,
     orderCreate: orderSlice,
-    orderDetails: orderDetailsSlice
+    orderDetails: orderDetailsSlice,
+    orderPay: orderPaySlice
 });
 
 const middleware = [thunk]
