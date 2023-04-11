@@ -32,6 +32,12 @@ const cartSlice = createSlice({
                 ...state,
                 shippingAddress: action.payload
             }
+        },
+        cartSavePaymentMethod: (state, action) => {
+            return{
+                ...state,
+                paymentMethod: action.payload
+            }
         }
     }
 });
