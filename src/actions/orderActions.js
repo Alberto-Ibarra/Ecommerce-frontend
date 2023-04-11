@@ -1,5 +1,5 @@
 import { request, success, fail } from "../slicers/orderSlice";
-import { requestDetails, successDetails, failDetials } from "../slicers/orderDetailsSlice";
+import { requestDetails, successDetails, failDetails } from "../slicers/orderDetailsSlice";
 import axios from 'axios';
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -35,6 +35,6 @@ export const getOrderDetails= (id) => async (dispatch, getState) => {
             dispatch(successDetails(data))
     } catch (err) {
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message
-        dispatch(failDetials(error))
+        dispatch(failDetails(error))
     }
 }
