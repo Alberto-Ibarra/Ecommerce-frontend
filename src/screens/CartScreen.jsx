@@ -16,6 +16,9 @@ const CartScreen = () => {
     const [searchParams] = useSearchParams()
     const qty = searchParams.get('qty')
 
+    const userLogin = useSelector(state => state.userLogin)
+    const {userInfo} = userLogin
+
 
     useEffect(()=>{
             dispatch(addToCart(productId, qty))
@@ -26,7 +29,11 @@ const CartScreen = () => {
     }
 
     const checkOutHandler = () => {
-        navigate('/login?redirect=shipping')
+        if (!userInfo) {
+        navigate('/login')
+        } else {
+            navigate('/shipping')
+        }
     }
 
     return (

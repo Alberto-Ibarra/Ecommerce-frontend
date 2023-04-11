@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const cartSlice = createSlice({
     name: 'cart',
-    initialState: { cartItems: [] },
+    initialState: { cartItems: [], shippingAddress: {} },
     reducers: {
         cartAddItem: (state, action) => {
             // console.log('test');
@@ -25,6 +25,12 @@ const cartSlice = createSlice({
             return{
                 ...state,
                 cartItems: state.cartItems.filter(x => x.product !== action.payload)
+            }
+        },
+        cartSaveShippingAddress: (state, action) => {
+            return{
+                ...state,
+                shippingAddress: action.payload
             }
         }
     }
