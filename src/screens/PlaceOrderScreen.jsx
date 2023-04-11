@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {Button, Row, Col, ListGroup, Image, Card} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message'
 import CheckoutSteps from '../components/checkoutSteps';
+import { createOrder } from '../actions/orderActions';
 
 const PlaceOrderScreen = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const cart = useSelector(state=> state.cart)
 
     const addDecimals = (num) => {
@@ -14,16 +16,31 @@ const PlaceOrderScreen = () => {
     }
 
     //calculate prices
-    const updatedCart = {
-        ...cart,
-        itemsPrice: cart.itemsPrice = cart.cartItems.reduce((acc, item)=> acc + item.price * item.qty, 0),
-        shippingPrice: cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100),
-        taxPrice: cart.taxPrice = addDecimals(Number((0.10 * cart.itemsPrice).toFixed(2))),
-        totalPrice: cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2)
-    }
+    cart.itemsPrice = cart.cartItems.reduce((acc, item)=> acc + item.price * item.qty, 0),
+    cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100),
+    cart.taxPrice = addDecimals(Number((0.10 * cart.itemsPrice).toFixed(2))),
+    cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2)
+
+    const orderCreate = useSelector(state=> state.orderCreate)
+    const {order, success, error} = orderCreate
+
+    useEffect(()=>{
+        if(success){
+            navigate(`/order/${order._id}`)
+        }
+    }, [success])
+
 
     const placeOrder = () => {
-        console.log('order');
+        dispatch(createOrder({
+            orderItems: cart.cartItems,
+            shippingAddress: cart.shippingAddress,
+            paymentMethod: cart.paymentMethod,
+            itemsPrice: cart.itemsPrice,
+            shippingPrice: cart.shippingPrice,
+            taxPrice: cart.taxPrice,
+            totalPrice: cart.totalPrice,
+        }))
     }
 
     return (
@@ -82,27 +99,32 @@ const PlaceOrderScreen = () => {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Items</Col>
-                                    <Col>${updatedCart.itemsPrice}</Col>
+                                    <Col>${cart.itemsPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Shipping</Col>
-                                    <Col>${updatedCart.shippingPrice}</Col>
+                                    <Col>${cart.shippingPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Tax</Col>
-                                    <Col>${updatedCart.taxPrice}</Col>
+                                    <Col>${cart.taxPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Total</Col>
-                                    <Col>${updatedCart.totalPrice}</Col>
+                                    <Col>${cart.totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
+
+                            <ListGroup.Item>
+                                {error && <Message variant='danger'>{error}</Message>}
+                            </ListGroup.Item>
+
                             <ListGroup.Item>
                                 <Button type='button' className='w-100' disabled={cart.cartItems === 0} onClick={placeOrder}>Place Order</Button>
                             </ListGroup.Item>
