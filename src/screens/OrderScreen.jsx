@@ -188,4 +188,3 @@ const OrderScreen = () => {
 export default OrderScreen
 
 
-// amount={order.totalPrice} onSuccess={successPaymentHandler}
