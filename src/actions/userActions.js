@@ -3,6 +3,8 @@ import { requestRegister, successRegister, failRegister } from "../slicers/userR
 import {requestDetails, successDetails, failDetails, reset} from "../slicers/userDetailsSlice"
 import { requestUpdateProfile, successUpdateProfile, failUpdateProfile } from "../slicers/userUpdateProfile";
 import { resetOrder } from "../slicers/orderListMyRequest";
+import { requestList, successList, failList, resetList } from "../slicers/userList";
+import { requestDelete, successDelete, failDelete } from "../slicers/userDeleteSlice";
 import axios from "axios";
 
 export const login = (email, password) => async (dispatch) => {
@@ -29,6 +31,7 @@ export const logoutUser = () => (dispatch) => {
     dispatch(logout())
     dispatch(reset())
     dispatch(resetOrder())
+    dispatch(resetList())
 }
 
 export const register = (name, email, password) => async (dispatch) => {
@@ -85,5 +88,44 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     } catch (err) {
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message
         dispatch(failUpdateProfile(error))
+    }
+}
+
+export const listUsers = () => async (dispatch, getState) => {
+    try {
+            dispatch(requestList())
+            const {userLogin:{userInfo}} = getState()
+
+            const config = {
+                headers:{
+                    Authorization: `Bearer ${userInfo.token}`
+                }
+            }
+            console.log('checkpoint');
+            const {data} = await axios.get(`http://localhost:5000/api/users`, config)
+            dispatch(successList(data))
+            console.log('checkpoint2');
+    } catch (err) {
+        const error =  err.response && err.response.data.message ? err.response.data.message : err.message
+        dispatch(failList(error))
+    }
+}
+
+export const deleteUser = (id) => async (dispatch, getState) => {
+    try {
+            dispatch(requestDelete())
+            const {userLogin:{userInfo}} = getState()
+
+            const config = {
+                headers:{
+                    Authorization: `Bearer ${userInfo.token}`
+                }
+            }
+
+            const {data} = await axios.delete(`http://localhost:5000/api/users/${id}`, config)
+            dispatch(successDelete(data))
+    } catch (err) {
+        const error =  err.response && err.response.data.message ? err.response.data.message : err.message
+        dispatch(failDelete(error))
     }
 }
