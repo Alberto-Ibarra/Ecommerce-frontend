@@ -14,8 +14,11 @@ const userDetailsSlice = createSlice({
         failDetails: (state, action) => {
             return { loading: false, error: action.payload }
         },
+        reset: (state, action) => {
+            return { user: {} }
+        },
     }
 });
 
-export const {requestDetails, successDetails, failDetails} = userDetailsSlice.actions;
+export const {requestDetails, successDetails, failDetails, reset} = userDetailsSlice.actions;
 export default userDetailsSlice.reducer;

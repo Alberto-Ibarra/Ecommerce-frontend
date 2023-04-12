@@ -10,6 +10,7 @@ import userUpdateProfileSlice from './slicers/userUpdateProfile';
 import orderSlice from './slicers/orderSlice';
 import orderDetailsSlice from './slicers/orderDetailsSlice';
 import orderPaySlice from './slicers/orderPaySlice';
+import orderListMyRequest from './slicers/orderListMyRequest';
 
 
 
@@ -23,7 +24,8 @@ const reducer = combineReducers({
     UpdateProfile: userUpdateProfileSlice,
     orderCreate: orderSlice,
     orderDetails: orderDetailsSlice,
-    orderPay: orderPaySlice
+    orderPay: orderPaySlice,
+    orderMyList: orderListMyRequest
 });
 
 const middleware = [thunk]

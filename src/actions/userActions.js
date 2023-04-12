@@ -1,7 +1,8 @@
 import { request, success, fail, logout } from "../slicers/userSlice";
 import { requestRegister, successRegister, failRegister } from "../slicers/userRegisterSlice";
-import {requestDetails, successDetails, failDetails} from "../slicers/userDetailsSlice"
+import {requestDetails, successDetails, failDetails, reset} from "../slicers/userDetailsSlice"
 import { requestUpdateProfile, successUpdateProfile, failUpdateProfile } from "../slicers/userUpdateProfile";
+import { resetOrder } from "../slicers/orderListMyRequest";
 import axios from "axios";
 
 export const login = (email, password) => async (dispatch) => {
@@ -26,6 +27,8 @@ export const login = (email, password) => async (dispatch) => {
 export const logoutUser = () => (dispatch) => {
     localStorage.removeItem('userInfo')
     dispatch(logout())
+    dispatch(reset())
+    dispatch(resetOrder())
 }
 
 export const register = (name, email, password) => async (dispatch) => {
