@@ -52,7 +52,9 @@ export const payOrder= (orderId, paymentResult) => async (dispatch, getState) =>
                     Authorization: `Bearer ${userInfo.token}`
                 }
             }
-            const {data} = await axios.put(`http://localhost:5000/api/orders/${orderId}/pay`, paymentResult, config)
+            console.log(orderId.id);
+            console.log(paymentResult);
+            const {data} = await axios.put(`http://localhost:5000/api/orders/${orderId.id}/pay`, paymentResult, config)
             dispatch(successPay(data))
     } catch (err) {
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message
