@@ -13,12 +13,16 @@ import orderPaySlice from './slicers/orderPaySlice';
 import orderListMyRequest from './slicers/orderListMyRequest';
 import userListSlice from './slicers/userList';
 import userDeleteSlice from './slicers/userDeleteSlice';
+import productDeleteSlice from './slicers/productDeleteSlice';
+import productAddSlice from './slicers/productAddSlice';
+import productEditSlice from './slicers/productEditSlice';
+import orderListSlice from './slicers/orderListSlice';
 
 
 
 const reducer = combineReducers({
     productsList: productsSlice,
-    productDetials: productDetailsSlice,
+    productDetails: productDetailsSlice,
     cart: cartSlice,
     userLogin: userLoginSlice,
     userRegister: userRegisterSlice,
@@ -29,7 +33,11 @@ const reducer = combineReducers({
     orderPay: orderPaySlice,
     orderMyList: orderListMyRequest,
     userList: userListSlice,
-    userDelete: userDeleteSlice
+    userDelete: userDeleteSlice,
+    productDelete: productDeleteSlice,
+    productAdd: productAddSlice,
+    productEdit: productEditSlice,
+    orderList: orderListSlice
 });
 
 const middleware = [thunk]

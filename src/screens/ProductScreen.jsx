@@ -12,11 +12,12 @@ const ProductScreen = () => {
     
     const {id: productId} = useParams();
     const dispatch = useDispatch();
-    const productDetails = useSelector((state) => state.productDetials);
+    const productDetails = useSelector((state) => state.productDetails);
     const {product, loading, error} = productDetails; 
+    console.log(product);
     const navigate = useNavigate();
 
-    console.log(productId);
+    // console.log(productId);
     useEffect(()=>{
         dispatch(fetchProductDetails(productId))
     },[dispatch, productId])

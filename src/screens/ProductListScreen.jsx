@@ -5,7 +5,10 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { fetchProducts } from '../actions/productActions'
+import { fetchProducts, deleteProduct, addProduct } from '../actions/productActions'
+import { resetAdd } from '../slicers/productAddSlice';
+import { successDelete } from '../slicers/userDeleteSlice';
+
 
 
 const ProductListScreen = () => {
@@ -14,28 +17,41 @@ const ProductListScreen = () => {
 
     const productList = useSelector(state => state.productsList)
     const { loading, error, products } = productList
-    
+
+    const productDelete = useSelector(state => state.productDelete)
+    const { success, loading: loadingDelete, error: errorDelete } = productDelete
+
+    const productAdd = useSelector(state => state.productAdd)
+    const { success: successAdd, loading: loadingAdd, error: errorAdd, product:createdProduct } = productAdd
+
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
 
 
     useEffect(()=>{
-        if(userInfo && userInfo.isAdmin){
-            dispatch(fetchProducts())
-            console.log('test');
-        }else{
+        dispatch(resetAdd())
+        if(!userInfo.isAdmin){
             navigate('/login')
         }
-}, [dispatch, navigate])
+        if(successAdd){
+            console.log(createdProduct);
+            console.log(createdProduct.data._id);
+            navigate(`/admin/productlist`)
+        }else{
+            dispatch(fetchProducts())
+        }
+
+
+}, [dispatch, navigate, success, createdProduct, successAdd, userInfo, successDelete, createdProduct])
 
     const deleteHandler = (id) => {
         if(window.confirm(`Are you sure?`)){
-            //delete prodcuts
+            dispatch(deleteProduct(id))
         }
     }
 
     const createProductHandler = () => {
-        console.log('test');
+        dispatch(addProduct())
     }
 
     return (
@@ -51,7 +67,10 @@ const ProductListScreen = () => {
                 </Col>
             </Row>
 
-
+            {loadingDelete && <Loader /> }
+            {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+            {loadingAdd && <Loader /> }
+            {errorAdd && <Message variant='danger'>{errorAdd}</Message>}
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <Table striped bordered hover responsive className='table-sm'>
                     <thead>
