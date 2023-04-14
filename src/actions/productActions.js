@@ -6,10 +6,12 @@ import { requestEdit, successEdit, failEdit} from '../slicers/productEditSlice';
 import { requestProductReview, successProductReview, failProductReview, resetProductReview } from '../slicers/productCreateReviewSlice';
 import axios from 'axios';
 
-export const fetchProducts = () => async (dispatch) => {
+export const fetchProducts = (keyword = '') => async (dispatch) => {
     try{
         dispatch(request())
-        const {data} = await axios.get('http://localhost:5000/api/products')
+
+        const { data } = await axios.get(`https://ecommerce-ap.herokuapp.com/api/products?keyword=${keyword}`);
+
         console.log(data);
         dispatch(success(data))
     }catch(err){
@@ -22,7 +24,7 @@ export const fetchProducts = () => async (dispatch) => {
 export const fetchProductDetails = (id) => async (dispatch) => {
     try{
         dispatch(requestDetails())
-        const {data} = await axios.get(`http://localhost:5000/api/products/${id}`,)
+        const {data} = await axios.get(`https://ecommerce-ap.herokuapp.com/api/products/${id}`,)
         console.log(data);
         dispatch(successDetails(data))
     }catch(err){
@@ -44,7 +46,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        await axios.delete(`http://localhost:5000/api/products/${id}`, config)
+        await axios.delete(`https://ecommerce-ap.herokuapp.com/api/products/${id}`, config)
 
         dispatch(successDelete())
     }catch(err){
@@ -66,7 +68,7 @@ export const addProduct = () => async (dispatch, getState) => {
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        const data = await axios.post(`http://localhost:5000/api/products`, {}, config)
+        const data = await axios.post(`https://ecommerce-ap.herokuapp.com/api/products`, {}, config)
 
         dispatch(successAdd(data))
     }catch(err){
@@ -89,7 +91,7 @@ export const editProduct = (product) => async (dispatch, getState) => {
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        const data = await axios.put(`http://localhost:5000/api/products/${product._id}`, product, config)
+        const data = await axios.put(`https://ecommerce-ap.herokuapp.com/api/products/${product._id}`, product, config)
 
         dispatch(successEdit(data))
     }catch(err){
@@ -111,7 +113,7 @@ export const createProductReview = (productId, review) => async (dispatch, getSt
                 Authorization: `Bearer ${userInfo.token}`
             }
         }
-        await axios.post(`http://localhost:5000/api/products/${productId}/reviews`, review, config)
+        await axios.post(`https://ecommerce-ap.herokuapp.com/api/products/${productId}/reviews`, review, config)
 
         dispatch(successProductReview())
     }catch(err){

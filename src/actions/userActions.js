@@ -15,7 +15,7 @@ export const login = (email, password) => async (dispatch) => {
                     'Content-Type': 'application/json'
                 }
             }
-            const {data} = await axios.post('http://localhost:5000/api/users/login', {email,password}, config)
+            const {data} = await axios.post('https://ecommerce-ap.herokuapp.com/api/users/login', {email,password}, config)
             dispatch(success())
             localStorage.setItem('userInfo', JSON.stringify(data))
     } catch (err) {
@@ -42,7 +42,7 @@ export const register = (name, email, password) => async (dispatch) => {
                     'Content-Type': 'application/json'
                 }
             }
-            const {data} = await axios.post('http://localhost:5000/api/users', {name, email,password}, config)
+            const {data} = await axios.post('https://ecommerce-ap.herokuapp.com/api/users', {name, email,password}, config)
             dispatch(successRegister())
             //user login success right after register
             dispatch(success())
@@ -64,7 +64,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
                     Authorization: `Bearer ${userInfo.token}`
                 }
             }
-            const {data} = await axios.get(`http://localhost:5000/api/users/${id}`, config)
+            const {data} = await axios.get(`https://ecommerce-ap.herokuapp.com/api/users/${id}`, config)
             dispatch(successDetails(data))
     } catch (err) {
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message
@@ -83,7 +83,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
                     Authorization: `Bearer ${userInfo.token}`
                 }
             }
-            const {data} = await axios.put(`http://localhost:5000/api/users/profile`, user, config)
+            const {data} = await axios.put(`https://ecommerce-ap.herokuapp.com/api/users/profile`, user, config)
             dispatch(successUpdateProfile(data))
     } catch (err) {
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message
@@ -102,7 +102,7 @@ export const listUsers = () => async (dispatch, getState) => {
                 }
             }
             console.log('checkpoint');
-            const {data} = await axios.get(`http://localhost:5000/api/users`, config)
+            const {data} = await axios.get(`https://ecommerce-ap.herokuapp.com/api/users`, config)
             dispatch(successList(data))
             console.log('checkpoint2');
     } catch (err) {
@@ -122,7 +122,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
                 }
             }
 
-            const {data} = await axios.delete(`http://localhost:5000/api/users/${id}`, config)
+            const {data} = await axios.delete(`https://ecommerce-ap.herokuapp.com/api/users/${id}`, config)
             dispatch(successDelete(data))
     } catch (err) {
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message

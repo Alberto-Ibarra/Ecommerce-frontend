@@ -8,7 +8,7 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
         console.error('addToCart called with undefined id');
         return;
         }
-    const { data } = await axios.get(`http://localhost:5000/api/products/${id}`) 
+    const { data } = await axios.get(`https://ecommerce-ap.herokuapp.com/api/products/${id}`) 
     
     dispatch({
         type: 'cart/cartAddItem',

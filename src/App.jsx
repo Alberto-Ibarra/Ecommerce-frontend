@@ -17,6 +17,7 @@ import UserListScreen from './screens/UserListScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import SearchBox from './components/SearchBox';
 
 
 
@@ -38,6 +39,7 @@ function App() {
               <Route path="/cart/:productId" element={<CartScreen/>}/>
               <Route path="/admin/product/:id/edit" element={<ProductEditScreen/>}/>
               <Route path="/" element={<HomeScreen/>}/>
+              <Route path="/search/:query" element={<SearchBox/>}/>
               <Route path="/admin/userlist" element={<UserListScreen/>}/>
               <Route path="/admin/productlist" element={<ProductListScreen/>}/>
               <Route path="/admin/orderslist" element={<OrderListScreen/>}/>

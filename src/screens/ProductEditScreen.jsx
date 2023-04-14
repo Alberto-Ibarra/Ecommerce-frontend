@@ -66,7 +66,7 @@ const ProductEditScreen = () => {
                 }
             }
 
-            const { data } = await axios.post('http://localhost:5000/api/upload', formdata, config)
+            const { data } = await axios.post('https://ecommerce-ap.herokuapp.com/api/upload', formdata, config)
             console.log(data);
             setImage(data)
             setUploading(false)
