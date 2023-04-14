@@ -3,6 +3,7 @@ import {requestDetails, successDetails, failDetails} from '../slicers/productDet
 import { requestDelete, successDelete, failDelete } from '../slicers/productDeleteSlice';
 import { requestAdd, successAdd, failAdd, resetAdd } from '../slicers/productAddSlice';
 import { requestEdit, successEdit, failEdit} from '../slicers/productEditSlice';
+import { requestProductReview, successProductReview, failProductReview, resetProductReview } from '../slicers/productCreateReviewSlice';
 import axios from 'axios';
 
 export const fetchProducts = () => async (dispatch) => {
@@ -94,5 +95,27 @@ export const editProduct = (product) => async (dispatch, getState) => {
     }catch(err){
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message
         dispatch(failEdit(error))
+    }
+}
+
+export const createProductReview = (productId, review) => async (dispatch, getState) => {
+    try{
+        dispatch(requestProductReview())
+
+        const {
+            userLogin: {userInfo}
+        } = getState()
+
+        const config = {
+            headers:{
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+        await axios.post(`http://localhost:5000/api/products/${productId}/reviews`, review, config)
+
+        dispatch(successProductReview())
+    }catch(err){
+        const error =  err.response && err.response.data.message ? err.response.data.message : err.message
+        dispatch(failProductReview(error))
     }
 }

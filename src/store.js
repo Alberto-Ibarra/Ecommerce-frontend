@@ -17,6 +17,8 @@ import productDeleteSlice from './slicers/productDeleteSlice';
 import productAddSlice from './slicers/productAddSlice';
 import productEditSlice from './slicers/productEditSlice';
 import orderListSlice from './slicers/orderListSlice';
+import orderDeliverSlice from './slicers/orderDeliverSlice';
+import productCreateReviewSlice from './slicers/productCreateReviewSlice';
 
 
 
@@ -37,7 +39,9 @@ const reducer = combineReducers({
     productDelete: productDeleteSlice,
     productAdd: productAddSlice,
     productEdit: productEditSlice,
-    orderList: orderListSlice
+    orderList: orderListSlice,
+    orderDeliver: orderDeliverSlice,
+    productCreateReview: productCreateReviewSlice
 });
 
 const middleware = [thunk]

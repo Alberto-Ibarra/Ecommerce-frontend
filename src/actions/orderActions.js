@@ -4,6 +4,7 @@ import { requestPay, successPay, failPay, reset } from "../slicers/orderPaySlice
 import { requestList, successList, failList } from "../slicers/orderListMyRequest"
 import { requestOrder, successOrder, failOrder } from "../slicers/orderListSlice";
 import axios from 'axios';
+import { requestDeliver, successDeliver, failDeliver } from "../slicers/orderDeliverSlice";
 
 export const createOrder = (order) => async (dispatch, getState) => {
     try {
@@ -103,5 +104,25 @@ export const allOrders= () => async (dispatch, getState) => {
     }catch(err){
         const error =  err.response && err.response.data.message ? err.response.data.message : err.message
         dispatch(failOrder(error))
+    }
+}
+
+export const deliverOrder= (order) => async (dispatch, getState) => {
+    try {
+        console.log(order);
+            dispatch(requestDeliver())
+            const {userLogin:{userInfo}} = getState()
+
+            const config = {
+                headers:{
+                    Authorization: `Bearer ${userInfo.token}`
+                }
+            }
+
+            const {data} = await axios.put(`http://localhost:5000/api/orders/${order._id}/deliver`, {},  config)
+            dispatch(successDeliver(data))
+    } catch (err) {
+        const error =  err.response && err.response.data.message ? err.response.data.message : err.message
+        dispatch(failDeliver(error))
     }
 }
